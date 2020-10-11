@@ -1,0 +1,39 @@
+Úprava tabulky
+    Úpravy tabulky způsobují zvětšení či zmenšení tabulky, resp. řádků a sloupců. Příkazů pro úpravu tabulky může být zadáno více. V takovém případě budou zadány jako sekvence více argumentů příkazové řádky:
+
+Příkazy pro úpravu tabulky:
+    irow R - vloží řádek před řádek R > 0.
+    arow - vloží nový řádek na konec souboru.
+    drow R - odstraní řádek číslo R > 0.
+    drows N M - odstraní řádky N až M (N <= M). V případě N=M se příkaz chová stejně jako drow N.
+    icol C - vloží prázdný sloupec před sloupec daný číslem C.
+    acol - vloží prázdný sloupec za poslední sloupec.
+    dcol C - odstraní sloupec číslo C.
+    dcols N M - odstraní sloupce N až M (N <= M). V případě N=M se příkaz chová stejně jako dcol N.
+
+Zpracování dat
+    Zpracování dat představuje úpravy obsahu jednotlivých buněk tabulky. Příkazy pro zpracování dat jsou následující:
+
+Příkazy, které jsou povinné pro úspěšné splnění projektu:
+    cset C STR - do buňky ve sloupci C bude nastaven řetězec STR.
+    tolower C - řetězec ve sloupci C bude převeden na malá písmena.
+    toupper C - řetězec ve sloupce C bude převeden na velká písmena.
+    round C - ve sloupci C zaokrouhlí číslo na celé číslo.
+    int C - odstraní desetinnou část čísla ve sloupci C.
+    copy N M - přepíše obsah buněk ve sloupci M hodnotami ze sloupce N.
+    swap N M - zamění hodnoty buněk ve sloupcích N a M.
+    move N M - přesune sloupec N před sloupec M.
+    
+Příkazy, které jsou volitelné pro úspěšné splnění projektu:
+    csum C N M - do buňky ve sloupci C bude uloženo číslo reprezentující součet hodnot buněk na stejném řádku ve sloupcích N až M včetně (N <= M, C nesmí patřit do intervalu <N;M>).
+    cavg C N M - obdobně jako csum, avšak výsledná hodnota představuje aritmetický průměr hodnot.
+    cmin C N M - obdobně jako csum, avšak výsledná hodnota představuje nejmenší nalezenou hodnotu.
+    cmax C N M - obdobně jako cmin, jedná se však o maximální nalezenou hodnotu.
+    ccount C N M - obdobně jako csum, avšak výsledná hodnota představuje počet neprázdnných hodnot daných buněk.
+    cseq N M B - do buněk ve sloupcích N až M včetně vloží postupně rostoucí čísla (o jedničku) počínaje hodnotou B.
+    rseq C N M B - ve sloupci C do buněk každého řádku od řádku N po řádek M včetně vloží rostoucí čísla počínaje hodnotou B. Číslo M může být nahrazeno pomlčkou. V takovém případě se tím myslí poslední řádek souboru.
+    rsum C N M - do buňky ve sloupci C na řádku M+1 vloží součet hodnot buněk ve sloupci C na řádcích N až M včetně.
+    ravg C N M - obdobně jako rsum, avšak výsledná hodnota představuje aritmetický průměr.
+    rmin C N M - obdobně jako rsum, avšak výsledná hodnota představuje nejmenší hodnotu.
+    rmax C N M - obdobně jako rsum, avšak výsledná hodnota představuje největší hodnotu.
+    rcount C N M - obdobně jako rsum, avšak výsledná hodnota představuje počet neprázdnných hodnot daných buněk.

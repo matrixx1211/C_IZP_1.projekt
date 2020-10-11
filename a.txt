@@ -1,0 +1,20 @@
+/* {
+        printf("%c", input);
+
+
+        if (input != '\n')
+        {
+            if (input != ':')
+            {
+                table[row][col] = table[row][col] + input;
+            }
+            else
+            {
+                col += 1;
+            }
+        }
+        else
+        {
+            row += 1;
+        }
+    } */
