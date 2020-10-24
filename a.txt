@@ -18,3 +18,138 @@
             row += 1;
         }
     } */
+
+
+
+
+
+     //do doby než se dostanu na konec řádku, tak --
+        if (character != '\n')
+        {
+            //do doby než dojdu k děliči --
+            if (character != ':') //změna na dělič zadaný v cmd
+            {
+                //skládání slova do buňky
+                table[i][j][letter] = table[i][j][letter] + character;
+                printf("%c",character);
+                letter += 1;
+            }
+            else
+            {
+                //nove slovo
+                j += 1;
+                letter = 0;
+            }
+        }
+        else
+        {
+            //nový řádek a vynulování sloupce
+            i += 1;
+            j = 0;
+        }
+
+
+
+
+
+           letter = 0;
+    for (int ii = 0; ii < i; ii++)
+    {
+        for (int jj = 0; jj < j; jj++)
+        {
+            while (table[ii][jj][letter])
+            {
+                printf("%c", table[ii][jj][letter]);
+                letter++;
+            }
+        }
+    }
+
+
+
+    //putchar(c);
+        if (inC != '\n')
+        {
+            //do doby než dojdu k děliči --
+            if (inC != ':') //změna na dělič zadaný v cmd
+            {
+                //skládání slova do buňky
+                table[i][j][c] = inC;
+                c++;
+            }
+            else
+            {
+                //nove slovo
+                j++;
+                c = 0;
+            }
+        }
+        else
+        {
+            //nový řádek a vynulování sloupce
+            i++;
+            j = 0;
+        }
+
+
+
+
+
+
+        if (inC != '\n')
+        {
+            if (inC != ':')
+            {
+                table[i][j][c] = inC;
+                c++;
+            }
+            else
+            {
+                j++;
+                c = 0;
+            }
+        }
+        else
+        {
+            i++;
+            j = 0;
+            c = 0;
+        }
+    }
+
+    printf("%s", table[2][2]);
+
+    /* for (int ii = 0; ii < i; ii++)
+    {
+        for (int jj = 0; jj < j; jj++)
+        {
+            printf("%s", table[ii][jj]);
+        }
+    } */
+
+
+     printf("\nRealny pocet radku je %d a sloupcu %d.\n", i, j);
+     
+
+
+     while ((inC = getchar()) != EOF)
+    {
+        if (inC != '\n')
+        {
+            row[c] = inC;
+            c++;
+        }
+        else
+        {
+            rowCount++;
+            row[0] = 0;
+            c = 0;
+        }
+    }
+
+
+    
+    /* for (int p = 0; p < c; p++)
+            {
+                printf("%c", row[p]);
+            } */

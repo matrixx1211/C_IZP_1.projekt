@@ -5,8 +5,12 @@
 /*                                                                           */
 /*      Cílem projektu je vytvořit tabulkový editor na příkazové řádce.      */
 
+//Hlavičkové soubory
 #include <stdio.h>
 #include <string.h>
+
+//maximální délka řádku == 10kiB => (1024 x 10) = 10240
+#define ROWLENGTH 10240
 
 //Příkazy pro úpravu tabulky
 /* Vloží řádek před zadaný řádek R > 0 */
@@ -91,12 +95,43 @@ void move(int N, int M)
 }
 
 /* Volání funkce podle zadanéo argumentu */
-int main(int argc, char const *argv[])
+
+/* Zpracování argumentu */
+void argsProcessing(int argCount, char const **pArg)
 {
-    for (int i = 0; (i = getchar()) != EOF;)
+    //Výčet funkcí podle počtů potřebných paramatrů
+    /* typedef enum
     {
-        printf("%c", i);
+
+    } zeroParamFun;
+
+    typedef enum
+    {
+
+    } oneParamFun;
+
+    typedef enum
+    {
+
+    } twoParamFun; */
+
+
+
+    for (int i = 0; i < argCount; i++)
+    {
+        printf("%s\n", pArg[i]);
+        int irow = strcmp("irow", pArg[i]);
+        if (irow == 0)
+            printf("IROW zadano.");
     }
-    
+}
+
+int main(int argc, char const **argv)
+{
+    //řádek - pole znaků
+    char row[ROWLENGTH];
+    int rowCount = 0, c = 0, inC;
+    argsProcessing(argc, argv);
+
     return 0;
 }

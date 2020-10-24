@@ -1,3 +1,5 @@
+gcc -std=c99 -Wall -Wextra -Werror sheet.c -o sheet
+
 Úprava tabulky
     Úpravy tabulky způsobují zvětšení či zmenšení tabulky, resp. řádků a sloupců. Příkazů pro úpravu tabulky může být zadáno více. V takovém případě budou zadány jako sekvence více argumentů příkazové řádky:
 
