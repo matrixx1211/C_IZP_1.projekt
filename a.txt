@@ -153,3 +153,31 @@
             {
                 printf("%c", row[p]);
             } */
+
+
+            enum zeroParamFun
+    {
+        arow,
+    };
+
+    enum oneParamFun
+    {
+        irow,
+        drow,
+        icol,
+        dcol,
+        tolower,
+        toupper,
+        round,
+        int,
+    };
+
+    enum twoParamFun
+    {
+        drows,
+        dcols,
+        cset,
+        copy,
+        swap,
+        move,
+    };
