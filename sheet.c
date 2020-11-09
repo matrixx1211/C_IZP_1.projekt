@@ -129,14 +129,10 @@ void myToLower(int C, char *row, int colCount, char delim)
         int i = 0;
         while (row[i] != '\n')
         {
-            //FIXME: - udělat pro konkrétní sloupec
-            //1 sloupec - 
-            //2 sloupec - 
-            //3 sloupec -  
-            /* if ((currentCol+1) > )
+            if ((currentCol+1) == C)
             {
                 row[i] = tolower(row[i]);
-            } */
+            }
 
             if (row[i] == delim)
             {
@@ -151,12 +147,23 @@ void myToLower(int C, char *row, int colCount, char delim)
 void myToUpper(int C, char *row, int colCount, char delim)
 {
     //Pro a-z udělá A-Z
-    int i = 0;
-    while (row[i] != '\n')
+    int currentCol = 0;
+    if (C <= (colCount + 1))
     {
-        //FIXME: - udělat pro konkrétní sloupec
-        row[i] = toupper(row[i]);
-        i++;
+        int i = 0;
+        while (row[i] != '\n')
+        {
+            if ((currentCol+1) == C)
+            {
+                row[i] = toupper(row[i]);
+            }
+
+            if (row[i] == delim)
+            {
+                currentCol++;
+            }
+            i++;
+        }
     }
 }
 
@@ -276,9 +283,9 @@ void argsProcessing(int argCount, char const **pArg, char delim, char *row, int 
             if (!strcmp("cset", pArg[i]))
                 cSet(*pArg[i + 1], pArg[i + 2]);
             if (!strcmp("tolower", pArg[i]))
-                myToLower(*pArg[i + 1], row, colCount, delim);
+                myToLower(atoi(pArg[i + 1]), row, colCount, delim);
             if (!strcmp("toupper", pArg[i]))
-                myToUpper(*pArg[i + 1], row, colCount, delim);
+                myToUpper(atoi(pArg[i + 1]), row, colCount, delim);
             if (!strcmp("round", pArg[i]))
                 myRound(*pArg[i + 1]);
             if (!strcmp("int", pArg[i]))
