@@ -86,9 +86,7 @@ void iRow(int R, int colCount, int currentRow, char delim)
             }
             printf("\n");
         }
-        
     }
-    
 }
 
 /* Vloží nový řádek na konec */
@@ -97,13 +95,37 @@ void aRow()
 }
 
 /* Odstraní řádek R > 0 */
-void dRow(int R)
+void dRow(int R, char *row, int currentRow)
 {
+    int i = 0;
+    if (R > 0)
+    {
+        if (R == currentRow)
+        {
+            while (row[i] != '\n')
+            {
+                row[i] = '\0';
+                i++;
+            }
+        }
+    }
 }
 
 /* Odstraní řádky N-M, N<=M, N=M => odstraní N */
-void dRows(int N, int M)
+void dRows(int N, int M, char *row, int currentRow)
 {
+    int i = 0;
+    if (N > 0)
+    {
+        if ((currentRow >= N) && (currentRow <= M))
+        {
+            while (row[i] != '\n')
+            {
+                row[i] = '\0';
+                i++;
+            }
+        }
+    }
 }
 
 /* Vloží prázdný sloupec před sloupec C */
@@ -128,7 +150,7 @@ void dCols(int N, int M)
 
 //Příkazy pro zpracování dat - povinné
 /* Do buňky C nastavit řetezec STR */
-void cSet(int C, char const *STR)
+void cSet(int C, const char *STR)
 {
 }
 
@@ -141,7 +163,7 @@ void myToLower(int C, char *row, int colCount, char delim)
         int i = 0;
         while (row[i] != '\n')
         {
-            if ((currentCol+1) == C)
+            if ((currentCol + 1) == C)
             {
                 row[i] = tolower(row[i]);
             }
@@ -164,7 +186,7 @@ void myToUpper(int C, char *row, int colCount, char delim)
         int i = 0;
         while (row[i] != '\n')
         {
-            if ((currentCol+1) == C)
+            if ((currentCol + 1) == C)
             {
                 row[i] = toupper(row[i]);
             }
@@ -303,9 +325,9 @@ void argsProcessing(int argCount, const char **pArg, char delim, char *row, int 
             if (!strcmp("arow", pArg[i]))
                 aRow();
             if (!strcmp("drow", pArg[i]))
-                dRow(*pArg[i + 1]);
+                dRow(atoi(pArg[i + 1]), row, rowCount);
             if (!strcmp("drows", pArg[i]))
-                dRows(*pArg[i + 1], *pArg[i + 2]);
+                dRows(atoi(pArg[i + 1]), atoi(pArg[i + 2]), row, rowCount);
             if (!strcmp("icol", pArg[i]))
                 iCol(*pArg[i + 1]);
             if (!strcmp("acol", pArg[i]))

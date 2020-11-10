@@ -48,4 +48,4 @@ Pokud neni tento prikaz zadan, uvazuje se implicitne o vsech radcich.
 - beginswith C STR - procesor bude zpracovavat pouze ty radky,
 jejichz obsah bunky ve sloupci C zacina retezcem STR.
 - contains C STR - procesor bude zpracovavat pouze ty radky, 
-jejichz bunky ve sloupci C obsahuji retezec STR.);
+jejichz bunky ve sloupci C obsahuji retezec STR.
