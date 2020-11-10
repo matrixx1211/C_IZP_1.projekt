@@ -6,15 +6,15 @@ V pripade OS Linux:
 V pripade OS Windows: 
 sheet.exe [-d DELIM] [Prikazy pro upravu tabulky]
 sheet.exe [-d DELIM] [Selekce radku] [Prikaz pro zpracovani dat]
---------------------------------------------------------------------------------
+
                                 ## [-d DELIM]
---------------------------------------------------------------------------------
+
 Argument -d specifikuje, jake znaky lze interpretovat jako oddelovace bunek.
 Ve vychozim nastaveni je DELIM retezec obsahujici mezeru.
 Prvni znak z retezce DELIM bude pouzit jako oddelovac vystupnich hodnot.
---------------------------------------------------------------------------------
+
                         ## [Prikazy pro upravu tabulky]
---------------------------------------------------------------------------------
+
 irow R - vlozi radek tabulky pred radek R > 0 (insert-row).
 arow - prida novy radek tabulky na konec tabulky (append-row).
 drow R - odstrani radek cislo R > 0 (delete-row).
@@ -25,9 +25,9 @@ acol - prida prazdny sloupec za posledni sloupec.
 dcol C - odstrani sloupec cislo C.
 dcols N M - odstrani sloupce N az M (N <= M).
 V pripade N=M se prikaz chova stejne jako dcol N.
---------------------------------------------------------------------------------
+
                         ## [Prikaz pro zpracovani dat]
---------------------------------------------------------------------------------
+
 cset C STR - do bunky ve sloupci C bude nastaven retezec STR.
 tolower C - retezec ve sloupci C bude preveden na mala pismena.
 toupper C - retezec ve sloupce C bude preveden na velka pismena.
@@ -36,9 +36,9 @@ int C - odstrani desetinnou cast cisla ve sloupci C.
 copy N M - prepise obsah bunek ve sloupci M hodnotami ze sloupce N.
 swap N M - zameni hodnoty bunek ve sloupcich N a M.
 move N M - presune sloupec N pred sloupec M.
---------------------------------------------------------------------------------
+
                                 ## [Selekce radku]
---------------------------------------------------------------------------------
+
 rows N M - procesor bude zpracovavat pouze radky N az M vcetne (N <= M).
 N=1 znamena zpracovani od prvniho radku. 
 Pokud je misto cisla M zadan znak - (pomlcka), 
