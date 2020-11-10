@@ -74,8 +74,21 @@ int usage()
 /* Volání funkce podle zadanéo argumentu */
 //Příkazy pro úpravu tabulky
 /* Vloží řádek před zadaný řádek R > 0 */
-void iRow(int R)
+void iRow(int R, int colCount, int currentRow, char delim)
 {
+    if (R > 0)
+    {
+        if (R == currentRow)
+        {
+            for (int i = 0; i < colCount; i++)
+            {
+                printf("%c", delim);
+            }
+            printf("\n");
+        }
+        
+    }
+    
 }
 
 /* Vloží nový řádek na konec */
@@ -123,7 +136,6 @@ void cSet(int C, char const *STR)
 void myToLower(int C, char *row, int colCount, char delim)
 {
     int currentCol = 0;
-    //Pro A-Z udělá a-z
     if (C <= (colCount + 1))
     {
         int i = 0;
@@ -146,7 +158,6 @@ void myToLower(int C, char *row, int colCount, char delim)
 /* Řetězec ve sloupci C bude převeden na velká písmena */
 void myToUpper(int C, char *row, int colCount, char delim)
 {
-    //Pro a-z udělá A-Z
     int currentCol = 0;
     if (C <= (colCount + 1))
     {
@@ -168,28 +179,51 @@ void myToUpper(int C, char *row, int colCount, char delim)
 }
 
 /* Ve sloupci C zaokrouhlí na celé číslo */
-void myRound(int C) /* FIXME: - name of func */
+void myRound(int C, char *row, int colCount, char delim)
 {
+    /* FIXME: Tady jsem skončil a nevím jestli se mi chce */
+    /* int currentCol = 0;
+    if (C <= (colCount + 1))
+    {
+        int i = 0;
+        while (row[i] != '\n')
+        {
+            if ((currentCol+1) == C)
+            {
+                row[i] = toupper(row[i]);
+            }
+
+            if (row[i] == delim)
+            {
+                currentCol++;
+            }
+            i++;
+        }
+    } */
 }
 
 /* Odstraní desetinnou část čísla ve sloupci C */
 void toInt(int C)
 {
+    /* TODO: To stejné jako round, ale nebude round, ale odstranění všeho za , */
 }
 
 /* Přepíše obsah buňek ve sloupci M hodnozami ze sloupce N */
 void copy(int N, int M)
 {
+    /* TODO: 3 stejné funkce skoro, COPY, SWAP a MOVE */
 }
 
 /* Zamění hodnoty buňek ve sloupcích N a M */
 void swap(int N, int M)
 {
+    /* TODO: 3 stejné funkce skoro, COPY, SWAP a MOVE */
 }
 
 /* Přesune sloupec N před sloupec M */
 void move(int N, int M)
 {
+    /* TODO: 3 stejné funkce skoro, COPY, SWAP a MOVE */
 }
 
 //Příkazy pro selekci
@@ -252,10 +286,10 @@ int expectedArqsCount(int argCount, char const **pArg)
 }
 
 /* Prototyp funkce readRow */
-void readRow(int argCount, char const **pArg, char delim);
+void readRow(int argCount, char const **pArg, char delim, int rowCount);
 
 /* Zpracování argumentu */
-void argsProcessing(int argCount, char const **pArg, char delim, char *row, int colCount)
+void argsProcessing(int argCount, char const **pArg, char delim, char *row, int colCount, int rowCount)
 {
     //Podle argumentů v příkazové řádce volá funkce programu
     /* FIXME:: přidat funkce na kontrolu kolik bylo zadáno argumentu v případě, 
@@ -265,7 +299,7 @@ void argsProcessing(int argCount, char const **pArg, char delim, char *row, int 
         for (int i = 0; i < argCount; i++)
         {
             if (!strcmp("irow", pArg[i]))
-                iRow(*pArg[i + 1]);
+                iRow(atoi(pArg[i + 1]), colCount, rowCount, delim);
             if (!strcmp("arow", pArg[i]))
                 aRow();
             if (!strcmp("drow", pArg[i]))
@@ -287,7 +321,7 @@ void argsProcessing(int argCount, char const **pArg, char delim, char *row, int 
             if (!strcmp("toupper", pArg[i]))
                 myToUpper(atoi(pArg[i + 1]), row, colCount, delim);
             if (!strcmp("round", pArg[i]))
-                myRound(*pArg[i + 1]);
+                myRound(atoi(pArg[i + 1]), row, colCount, delim);
             if (!strcmp("int", pArg[i]))
                 toInt(*pArg[i + 1]);
             if (!strcmp("copy", pArg[i]))
@@ -309,11 +343,11 @@ void argsProcessing(int argCount, char const **pArg, char delim, char *row, int 
     /* Výpis jednoho zpracovaného řádku */
     printf("%s", row);
     /* Čtení dalšího řádku */
-    readRow(argCount, pArg, delim);
+    readRow(argCount, pArg, delim, rowCount);
 }
 
 /* Čtení řádku */
-void readRow(int argCount, char const **pArg, char delim)
+void readRow(int argCount, char const **pArg, char delim, int rowCount)
 {
     char row[ROWLENGTH];
     int colCount = 0, i = 0;
@@ -329,7 +363,9 @@ void readRow(int argCount, char const **pArg, char delim)
             }
             i++;
         }
-        argsProcessing(argCount, pArg, delim, row, colCount);
+        rowCount++;
+        printf("%d", rowCount);
+        argsProcessing(argCount, pArg, delim, row, colCount, rowCount);
     }
 }
 
@@ -337,23 +373,21 @@ int main(int argc, char const **argv)
 {
     //Očekávaný počet argumentů
     int expected = expectedArqsCount(argc, argv);
+    //Počet řádků
+    int rowCount = 0;
 
     /* Nalezení oddělovače DELIM */
-    //Mezera - defaultní dělič buněk
     char delim = ' ';
     if (argc >= 3)
     {
         if (!strcmp(argv[1], "-d"))
             delim = argv[2][0];
     }
-    //printf("\n%d - %d\n", expected, argc - 1);
 
-    /* FIXME:  vypisovat jen pokud bylo něco zadáno špatně*/
-    //usage();
-    //printf("Oddelovac je -> %c\n", delim);
+    //
     if (expected == (argc - 1))
     {
-        readRow(argc, argv, delim);
+        readRow(argc, argv, delim, rowCount);
         return 0;
     }
     else
