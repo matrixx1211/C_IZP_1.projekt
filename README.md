@@ -1,11 +1,11 @@
 # C_fit-vut_projekt-1
 ## Spouštění programu
 1. V pripade OS Linux: 
-**./sheet [-d DELIM] [Prikazy pro upravu tabulky]**
-**./sheet [-d DELIM] [Selekce radku] [Prikaz pro zpracovani dat]**
+- **./sheet [-d DELIM] [Prikazy pro upravu tabulky]**
+- **./sheet [-d DELIM] [Selekce radku] [Prikaz pro zpracovani dat]**
 2. V pripade OS Windows: 
-**sheet.exe [-d DELIM] [Prikazy pro upravu tabulky]**
-**sheet.exe [-d DELIM] [Selekce radku] [Prikaz pro zpracovani dat]**
+- **sheet.exe [-d DELIM] [Prikazy pro upravu tabulky]**
+- **sheet.exe [-d DELIM] [Selekce radku] [Prikaz pro zpracovani dat]**
 
 ## Oddělovač buněk [-d DELIM]
 
