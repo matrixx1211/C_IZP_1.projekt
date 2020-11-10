@@ -286,10 +286,10 @@ int expectedArqsCount(int argCount, char const **pArg)
 }
 
 /* Prototyp funkce readRow */
-void readRow(int argCount, char const **pArg, char delim, int rowCount);
+void readRow(int argCount, const char **pArg, char delim, int rowCount);
 
 /* Zpracování argumentu */
-void argsProcessing(int argCount, char const **pArg, char delim, char *row, int colCount, int rowCount)
+void argsProcessing(int argCount, const char **pArg, char delim, char *row, int colCount, int rowCount)
 {
     //Podle argumentů v příkazové řádce volá funkce programu
     /* FIXME:: přidat funkce na kontrolu kolik bylo zadáno argumentu v případě, 
