@@ -8,13 +8,11 @@
 - **sheet.exe [-d DELIM] [Selekce radku] [Prikaz pro zpracovani dat]**
 
 ## Oddělovač buněk [-d DELIM]
-
 Argument -d specifikuje, jake znaky lze interpretovat jako oddelovace bunek.
 Ve vychozim nastaveni je DELIM retezec obsahujici mezeru.
 Prvni znak z retezce DELIM bude pouzit jako oddelovac vystupnich hodnot.
 
 ## Popis příkazů pro úpravu tabulky [Prikazy pro upravu tabulky]
-
 - irow R - vlozi radek tabulky pred radek R > 0 (insert-row).
 - arow - prida novy radek tabulky na konec tabulky (append-row).
 - drow R - odstrani radek cislo R > 0 (delete-row).
@@ -27,7 +25,6 @@ V pripade N=M se prikaz chova stejne jako drow N.
 V pripade N=M se prikaz chova stejne jako dcol N.
 
 ## Popis příkazů pro zpracování dat [Prikaz pro zpracovani dat]
-
 - cset C STR - do bunky ve sloupci C bude nastaven retezec STR.
 - tolower C - retezec ve sloupci C bude preveden na mala pismena.
 - toupper C - retezec ve sloupce C bude preveden na velka pismena.
@@ -38,7 +35,6 @@ V pripade N=M se prikaz chova stejne jako dcol N.
 - move N M - presune sloupec N pred sloupec M.
 
 ## Popis příkazů pro selekci řádků [Selekce radku]
-
 - rows N M - procesor bude zpracovavat pouze radky N az M vcetne (N <= M).
 N=1 znamena zpracovani od prvniho radku. 
 Pokud je misto cisla M zadan znak - (pomlcka), 
@@ -49,3 +45,36 @@ Pokud neni tento prikaz zadan, uvazuje se implicitne o vsech radcich.
 jejichz obsah bunky ve sloupci C zacina retezcem STR.
 - contains C STR - procesor bude zpracovavat pouze ty radky, 
 jejichz bunky ve sloupci C obsahuji retezec STR.
+
+## Progres zpracování
+### Základní operace pro načtení a výpis 
+- [x] Načítání řádků
+- [x] Nalezení delimu
+- [x] Kontrola zadáného vstupu na příkazové řádce
+- [x] Zpracování argumentů z příkazové řádky
+- [x] Výpis řádků
+
+### Operace pro úpravu tabulky
+- [x] irow
+- [ ] arow
+- [x] drow 
+- [x] drows
+- [ ] icol
+- [ ] acol
+- [ ] dcol
+- [ ] dcols
+
+### Operace pro zpracování dat
+- [ ] cset
+- [x] tolower
+- [x] toupper
+- [ ] round
+- [ ] int
+- [ ] copy
+- [ ] swap
+- [ ] move
+
+### Operace pro selekci řádku
+- [ ] rows
+- [ ] beginswith
+- [ ] contains

@@ -92,6 +92,7 @@ void iRow(int R, int colCount, int currentRow, char delim)
 /* Vloží nový řádek na konec */
 void aRow()
 {
+    /* TODO: Nevím jak na to -- nevím jak zjistit konec řádku */
 }
 
 /* Odstraní řádek R > 0 */
