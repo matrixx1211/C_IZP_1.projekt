@@ -1,19 +1,19 @@
 # C_fit-vut_projekt-1
 ## Spouštění programu
-V pripade OS Linux: 
-./sheet [-d DELIM] [Prikazy pro upravu tabulky]
-./sheet [-d DELIM] [Selekce radku] [Prikaz pro zpracovani dat]
-V pripade OS Windows: 
-sheet.exe [-d DELIM] [Prikazy pro upravu tabulky]
-sheet.exe [-d DELIM] [Selekce radku] [Prikaz pro zpracovani dat]
+1. V pripade OS Linux: 
+** ./sheet [-d DELIM] [Prikazy pro upravu tabulky] **
+** ./sheet [-d DELIM] [Selekce radku] [Prikaz pro zpracovani dat] **
+2. V pripade OS Windows: 
+** sheet.exe [-d DELIM] [Prikazy pro upravu tabulky] **
+** sheet.exe [-d DELIM] [Selekce radku] [Prikaz pro zpracovani dat] **
 
-## [-d DELIM]
+## Oddělovač buněk [-d DELIM]
 
 Argument -d specifikuje, jake znaky lze interpretovat jako oddelovace bunek.
 Ve vychozim nastaveni je DELIM retezec obsahujici mezeru.
 Prvni znak z retezce DELIM bude pouzit jako oddelovac vystupnich hodnot.
 
-## [Prikazy pro upravu tabulky]
+## Popis příkazů pro úpravu tabulky [Prikazy pro upravu tabulky]
 
 - irow R - vlozi radek tabulky pred radek R > 0 (insert-row).
 - arow - prida novy radek tabulky na konec tabulky (append-row).
@@ -26,7 +26,7 @@ V pripade N=M se prikaz chova stejne jako drow N.
 - dcols N M - odstrani sloupce N az M (N <= M).
 V pripade N=M se prikaz chova stejne jako dcol N.
 
-## [Prikaz pro zpracovani dat]
+## Popis příkazů pro zpracování dat [Prikaz pro zpracovani dat]
 
 - cset C STR - do bunky ve sloupci C bude nastaven retezec STR.
 - tolower C - retezec ve sloupci C bude preveden na mala pismena.
@@ -37,7 +37,7 @@ V pripade N=M se prikaz chova stejne jako dcol N.
 - swap N M - zameni hodnoty bunek ve sloupcich N a M.
 - move N M - presune sloupec N pred sloupec M.
 
-## [Selekce radku]
+## Popis příkazů pro selekci řádků [Selekce radku]
 
 - rows N M - procesor bude zpracovavat pouze radky N az M vcetne (N <= M).
 N=1 znamena zpracovani od prvniho radku. 
