@@ -317,6 +317,9 @@ void argsProcessing(int argCount, const char **pArg, char delim, char *row, int 
     //Podle argumentů v příkazové řádce volá funkce programu
     /* FIXME:: přidat funkce na kontrolu kolik bylo zadáno argumentu v případě, 
     že bylo zadáno míň argumentů než je potřeba vrátit se do MAIN a vypsat USAGE */
+    /* IF TODO: rows ... zpracuj pokud row je ze zadaných row */
+    /* TODO: beginswith ... zavolá funkci a pokud se nalezne v daném sloupci na začátku to co chci tak vráti hodnotu a potom se provede to co bylo zadáno  */
+    /* TODO: contains ... obdobně jako u beginswith, ale může být kdekoliv daný STR*/
     if (argCount > 1)
     {
         for (int i = 0; i < argCount; i++)
@@ -359,8 +362,6 @@ void argsProcessing(int argCount, const char **pArg, char delim, char *row, int 
                 beginsWith(*pArg[i + 1], pArg[i + 2]);
             if (!strcmp("move", pArg[i]))
                 contains(*pArg[i + 1], pArg[i + 2]);
-            /* FIXME: nutno přidat kontrolu jestli existuje *pArg[i+?], v případě že není zadáno error */
-            //if (i == argCount) printRow();
         }
     }
     /* Výpis jednoho zpracovaného řádku */
@@ -407,7 +408,7 @@ int main(int argc, char const **argv)
             delim = argv[2][0];
     }
 
-    //
+    //Počet očekávaných arg musí být roven počtu arg bez prvního (sheet.exe)
     if (expected == (argc - 1))
     {
         readRow(argc, argv, delim, rowCount);
