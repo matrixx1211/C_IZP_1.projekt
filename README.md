@@ -60,7 +60,7 @@ jejichz bunky ve sloupci C obsahuji retezec STR.
 - [x] drow 
 - [x] drows
 - [ ] icol
-- [ ] acol
+- [x] acol
 - [ ] dcol
 - [ ] dcols
 
