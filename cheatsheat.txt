@@ -1,7 +1,0 @@
-procházím vstup
-zpracovávej řádek do row
-zpracuj řádek podle argumentu
-
-
-
-
