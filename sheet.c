@@ -73,7 +73,6 @@ int usage()
            "\tjejichz bunky ve sloupci C obsahuji retezec STR.\n\n");
 }
 
-/* Volání funkce podle zadanéo argumentu */
 //Příkazy pro úpravu tabulky
 /* Vloží řádek před zadaný řádek R > 0 */
 void iRow(int R, int colCount, int currentRow, char delim)
@@ -92,9 +91,13 @@ void iRow(int R, int colCount, int currentRow, char delim)
 }
 
 /* Vloží nový řádek na konec */
-void aRow()
+void aRow(int colCount, char delim, char *row)
 {
-    /* TODO: Nevím jak na to -- nevím jak zjistit konec řádku */
+    sprintf(row, "%s\n", row);
+    for (int i = 0; i < colCount; i++)
+    {
+        sprintf(row, "%s%c", row, delim);
+    }
 }
 
 /* Odstraní řádek R > 0 */
@@ -155,6 +158,9 @@ void aCol(char *row, char delim)
 /* Odstraní sloupec číslo C */
 void dCol(int C)
 {
+    if (C > 0)
+    {
+    }
 }
 
 /* Odstraní sloupce N-M, N<=M, N=M => odstraní N */
@@ -213,6 +219,7 @@ void myToUpper(int C, char *row, int colCount, char delim)
         }
     }
 }
+
 /* Složí buňky zpět do řádku */
 void putIntoRow(char *row, int colCount, char rowToCells[colCount + 1][CELLLENGTH], char delim)
 {
@@ -226,7 +233,7 @@ void putIntoRow(char *row, int colCount, char rowToCells[colCount + 1][CELLLENGT
         {
             sprintf(row, "%s%s:", row, rowToCells[i]);
         }
-        else 
+        else
         {
             sprintf(row, "%s%s\n", row, rowToCells[i]);
         }
@@ -346,21 +353,45 @@ void move(int N, int M)
 //Příkazy pro selekci
 /* Zpracuje řádky N až M, N<=M, 
 při zadání například (N = 1) (M = 2) od prvního do druhého včetně
-při (N = 1) (M = -) od prvního do posledního sloupce, 
-při (N = -) (M = -) zpracuje se pouze poslední sloupec, 
+při (N = 1) (M = -) od prvního do posledního řádku, 
+při (N = -) (M = -) zpracuje se pouze poslední řádku, 
 při nezadání se zpracuje vše */
-void rows(int N, int M)
+int rows(const char *N, const char *M, int *all, int currentRow, bool endOfFile)
 {
+    *all = 0;
+    if ((isdigit(*N)) && (isdigit(*M)))
+    {
+        if ((currentRow >= atoi(N)) && (currentRow <= atoi(M)))
+        {
+            return 1;
+        }
+    }
+    else if ((isdigit(*N)) && (!isdigit(*M)))
+    {
+        if (currentRow >= atoi(N))
+        {
+            return 1;
+        }
+    }
+    else if (((!isdigit(*N)) && (!isdigit(*M))) && (endOfFile))
+    {
+        return 1;
+    }
+    return 0;
 }
 
 /* Zpracuje se pouze řádek, který ve sloupci C začína řetezcem STR */
-void beginsWith(int C, char const *STR)
+int beginsWith(int C, char const *STR, int *all)
 {
+    *all = 0;
+    return 1;
 }
 
 /* Zpracuje se pouze řádek, který ve sloupci C obsahuje řetezec STR */
-void contains(int C, char const *STR)
+int contains(int C, char const *STR, int *all)
 {
+    *all = 0;
+    return 1;
 }
 
 /* Kontrola spuštění - buď [Selekce radku] [Prikaz pro zpracovani dat] a nebo [Prikazy pro upravu tabulky] */
@@ -447,11 +478,12 @@ int expectedArqsCount(int argCount, char const **pArg)
 }
 
 /* Prototyp funkce readRow */
-void readRow(int argCount, const char **pArg, char delim, int rowCount);
+void readRow(int argCount, const char **pArg, char delim, int rowCount, bool endOfFile);
 
 /* Zpracování argumentu */
-void argsProcessing(int argCount, const char **pArg, char delim, char *row, int colCount, int rowCount)
+void argsProcessing(int argCount, const char **pArg, char delim, char *row, int colCount, int rowCount, bool endOfFile)
 {
+    int all = 1, rowsSet = 0, beginsWithSet = 0, containsSet = 0;
     //Podle argumentů v příkazové řádce volá funkce programu
     /* IF TODO: rows ... zpracuj pokud row je ze zadaných row */
     /* TODO: beginswith ... zavolá funkci a pokud se nalezne v daném sloupci na začátku to co chci tak vráti hodnotu a potom se provede to co bylo zadáno  */
@@ -463,8 +495,9 @@ void argsProcessing(int argCount, const char **pArg, char delim, char *row, int 
             //Příkazy pro úpravu tabulky
             if (!strcmp("irow", pArg[i]))
                 iRow(atoi(pArg[i + 1]), colCount, rowCount, delim);
-            if (!strcmp("arow", pArg[i]))
-                aRow();
+            //arow přesunuto do main - FIXME: chtěl bych ho zde
+            if ((!strcmp("arow", pArg[i])) && endOfFile)
+                aRow(colCount, delim, row);
             if (!strcmp("drow", pArg[i]))
                 dRow(atoi(pArg[i + 1]), row, rowCount);
             if (!strcmp("drows", pArg[i]))
@@ -478,48 +511,53 @@ void argsProcessing(int argCount, const char **pArg, char delim, char *row, int 
             if (!strcmp("dcols", pArg[i]))
                 dCols(*pArg[i + 1], *pArg[i + 2]);
 
-            //Příkazy pro zpracování dat
-            if (!strcmp("cset", pArg[i]))
-                cSet(*pArg[i + 1], pArg[i + 2]);
-            if (!strcmp("tolower", pArg[i]))
-                myToLower(atoi(pArg[i + 1]), row, colCount, delim);
-            if (!strcmp("toupper", pArg[i]))
-                myToUpper(atoi(pArg[i + 1]), row, colCount, delim);
-            if (!strcmp("round", pArg[i]))
-                myRound(atoi(pArg[i + 1]), row, colCount, delim);
-            if (!strcmp("int", pArg[i]))
-                toInt(atoi(pArg[i + 1]), row, colCount, delim);
-            if (!strcmp("copy", pArg[i]))
-                copy(*pArg[i + 1], *pArg[i + 2]);
-            if (!strcmp("swap", pArg[i]))
-                swap(*pArg[i + 1], *pArg[i + 2]);
-            if (!strcmp("move", pArg[i]))
-                move(*pArg[i + 1], *pArg[i + 2]);
-
             //Selekce řádků
             if (!strcmp("rows", pArg[i]))
-                rows(*pArg[i + 1], *pArg[i + 2]);
+                rowsSet = rows(pArg[i + 1], pArg[i + 2], &all, rowCount, endOfFile);
             if (!strcmp("beginswith", pArg[i]))
-                beginsWith(*pArg[i + 1], pArg[i + 2]);
+                beginsWithSet = beginsWith(atoi(pArg[i + 1]), pArg[i + 2], &all);
             if (!strcmp("contains", pArg[i]))
-                contains(*pArg[i + 1], pArg[i + 2]);
+                containsSet = contains(atoi(pArg[i + 1]), pArg[i + 2], &all);
+
+            //Příkazy pro zpracování dat
+            //TODO: pokud nějaký z hodnot bude 1, tak se provede
+            if (rowsSet || beginsWithSet || containsSet || all)
+            {
+                if (!strcmp("cset", pArg[i]))
+                    cSet(*pArg[i + 1], pArg[i + 2]);
+                if (!strcmp("tolower", pArg[i]))
+                    myToLower(atoi(pArg[i + 1]), row, colCount, delim);
+                if (!strcmp("toupper", pArg[i]))
+                    myToUpper(atoi(pArg[i + 1]), row, colCount, delim);
+                if (!strcmp("round", pArg[i]))
+                    myRound(atoi(pArg[i + 1]), row, colCount, delim);
+                if (!strcmp("int", pArg[i]))
+                    toInt(atoi(pArg[i + 1]), row, colCount, delim);
+                if (!strcmp("copy", pArg[i]))
+                    copy(*pArg[i + 1], *pArg[i + 2]);
+                if (!strcmp("swap", pArg[i]))
+                    swap(*pArg[i + 1], *pArg[i + 2]);
+                if (!strcmp("move", pArg[i]))
+                    move(*pArg[i + 1], *pArg[i + 2]);
+            }
         }
+        //printf("\nH- %d,%d,%d,%d\n", all, rowsSet, beginsWithSet, containsSet);
     }
-    /* Výpis jednoho zpracovaného řádku */
+    //Výpis jednoho zpracovaného řádku
     printf("%s", row);
-    /* Čtení dalšího řádku */
-    readRow(argCount, pArg, delim, rowCount);
+    //Čtení dalšího řádku
+    readRow(argCount, pArg, delim, rowCount, endOfFile);
 }
 
 /* Čtení řádku */
-void readRow(int argCount, char const **pArg, char delim, int rowCount)
+void readRow(int argCount, char const **pArg, char delim, int rowCount, bool endOfFile)
 {
     char row[ROWLENGTH];
     int colCount = 0, i = 0;
     //Načtení celého řádku do row ze stdin s maximální délkou ROWLENGTH
     while (fgets(row, ROWLENGTH, stdin) != NULL)
     {
-        //Počítání počtu děliču, tudiž sloupců
+        //Počítání počtu děliču, tudiž sloupců bez jednoho
         while (row[i] != '\n')
         {
             if (row[i] == delim)
@@ -530,7 +568,10 @@ void readRow(int argCount, char const **pArg, char delim, int rowCount)
         }
         rowCount++;
         //printf("%d", rowCount);
-        argsProcessing(argCount, pArg, delim, row, colCount, rowCount);
+        //tady mi to vráti konec, ale je na začátku posledního řádku
+        if (feof(stdin))
+            endOfFile = true;
+        argsProcessing(argCount, pArg, delim, row, colCount, rowCount, endOfFile);
     }
 }
 
@@ -540,6 +581,8 @@ int main(int argc, char const **argv)
     int expected = expectedArqsCount(argc, argv);
     //Počet řádků
     int rowCount = 0;
+    //Konec řádku
+    bool endOfFile = false;
 
     /* Nalezení oddělovače DELIM */
     char delim = ' ';
@@ -548,11 +591,11 @@ int main(int argc, char const **argv)
         if (!strcmp(argv[1], "-d"))
             delim = argv[2][0];
     }
-    //Mód spuštění
     //Počet očekávaných arg musí být roven počtu arg bez prvního (sheet.exe)
+    //Mód spuštění buď edit tabulky nebo edit dat
     if ((expected == (argc - 1)) && (selectedMode(argc, argv)))
     {
-        readRow(argc, argv, delim, rowCount);
+        readRow(argc, argv, delim, rowCount, endOfFile);
         return 0;
     }
     else

@@ -53,10 +53,12 @@ jejichz bunky ve sloupci C obsahuji retezec STR.
 - [x] Kontrola zadáného vstupu na příkazové řádce
 - [x] Zpracování argumentů z příkazové řádky
 - [x] Výpis řádků
+- [x] Rozdělení řádku do buněk
+- [x] Složení buněk do řádku 
 
 ### Operace pro úpravu tabulky
 - [x] irow
-- [ ] arow
+- [x] arow
 - [x] drow 
 - [x] drows
 - [ ] icol
@@ -68,13 +70,13 @@ jejichz bunky ve sloupci C obsahuji retezec STR.
 - [ ] cset
 - [x] tolower
 - [x] toupper
-- [ ] round
-- [ ] int
+- [x] round
+- [x] int
 - [ ] copy
 - [ ] swap
 - [ ] move
 
 ### Operace pro selekci řádku
-- [ ] rows
+- [x] rows
 - [ ] beginswith
 - [ ] contains
