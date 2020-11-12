@@ -213,6 +213,25 @@ void myToUpper(int C, char *row, int colCount, char delim)
         }
     }
 }
+/* Složí buňky zpět do řádku */
+void putIntoRow(char *row, int colCount, char rowToCells[colCount + 1][CELLLENGTH], char delim)
+{
+    //vynuluju pole
+    for (int i = 0; i < strlen(row); i++)
+        row[i] = '\0';
+    //
+    for (int i = 0; i < (colCount + 1); i++)
+    {
+        if (i != (colCount))
+        {
+            sprintf(row, "%s%s:", row, rowToCells[i]);
+        }
+        else 
+        {
+            sprintf(row, "%s%s\n", row, rowToCells[i]);
+        }
+    }
+}
 
 /* Rozdělí řádek do buněk*/
 void divideToCells(char *row, int colCount, char rowToCells[colCount + 1][CELLLENGTH], char delim)
@@ -239,28 +258,71 @@ void divideToCells(char *row, int colCount, char rowToCells[colCount + 1][CELLLE
 /* Ve sloupci C zaokrouhlí na celé číslo */
 void myRound(int C, char *row, int colCount, char delim)
 {
-    /* FIXME: Tady jsem skončil a nevím jestli se mi chce */
-    int currentCol = 0;
+    bool floatNum = false;
+    int rounded;
     if (C <= (colCount + 1))
     {
-        //Rozdělím do sloupců
         char rowToCells[colCount + 1][CELLLENGTH];
         divideToCells(row, colCount, rowToCells, delim);
-
-        /* for (int i = 0; i < (colCount + 1); i++) printf("%s", rowToCells[i]); */
-        printf("%s", rowToCells[2]);
-
-        //Zkontroluji sloupce, jestli někde není číslo
+        for (int i = 0; i < strlen(rowToCells[C - 1]); i++)
+        {
+            if ((isdigit(rowToCells[C - 1][i])) || (rowToCells[C - 1][i] == '.') || (rowToCells[C - 1][i] == ','))
+            {
+                if (rowToCells[C - 1][i] == ',')
+                {
+                    rowToCells[C - 1][i] = '.';
+                }
+                floatNum = true;
+            }
+            else
+            {
+                floatNum = false;
+                break;
+            }
+        }
         //Nalezené číslo převedu na float
-        //Převedené číslo zaokrouhlím a uložím do buňky
-        //Složím do řádku
+        if (floatNum == true)
+        {
+            rounded = (int)round(atof(rowToCells[C - 1]));
+            sprintf(rowToCells[C - 1], "%d", rounded);
+        }
+        putIntoRow(row, colCount, rowToCells, delim);
     }
 }
 
 /* Odstraní desetinnou část čísla ve sloupci C */
-void toInt(int C)
+void toInt(int C, char *row, int colCount, char delim)
 {
-    /* TODO: To stejné jako round, ale nebude round, ale odstranění všeho za , */
+    bool floatNum = false;
+    int rounded;
+    if (C <= (colCount + 1))
+    {
+        char rowToCells[colCount + 1][CELLLENGTH];
+        divideToCells(row, colCount, rowToCells, delim);
+        for (int i = 0; i < strlen(rowToCells[C - 1]); i++)
+        {
+            if ((isdigit(rowToCells[C - 1][i])) || (rowToCells[C - 1][i] == '.') || (rowToCells[C - 1][i] == ','))
+            {
+                if (rowToCells[C - 1][i] == ',')
+                {
+                    rowToCells[C - 1][i] = '.';
+                }
+                floatNum = true;
+            }
+            else
+            {
+                floatNum = false;
+                break;
+            }
+        }
+        //Nalezené číslo převedu na float
+        if (floatNum == true)
+        {
+            rounded = (int)floor(atof(rowToCells[C - 1]));
+            sprintf(rowToCells[C - 1], "%d", rounded);
+        }
+        putIntoRow(row, colCount, rowToCells, delim);
+    }
 }
 
 /* Přepíše obsah buňek ve sloupci M hodnozami ze sloupce N */
@@ -426,7 +488,7 @@ void argsProcessing(int argCount, const char **pArg, char delim, char *row, int 
             if (!strcmp("round", pArg[i]))
                 myRound(atoi(pArg[i + 1]), row, colCount, delim);
             if (!strcmp("int", pArg[i]))
-                toInt(*pArg[i + 1]);
+                toInt(atoi(pArg[i + 1]), row, colCount, delim);
             if (!strcmp("copy", pArg[i]))
                 copy(*pArg[i + 1], *pArg[i + 2]);
             if (!strcmp("swap", pArg[i]))
@@ -444,7 +506,7 @@ void argsProcessing(int argCount, const char **pArg, char delim, char *row, int 
         }
     }
     /* Výpis jednoho zpracovaného řádku */
-    //printf("%s", row); //FIXME: odkomentovat
+    printf("%s", row);
     /* Čtení dalšího řádku */
     readRow(argCount, pArg, delim, rowCount);
 }
