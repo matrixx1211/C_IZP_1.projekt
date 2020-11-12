@@ -142,10 +142,10 @@ void aCol(char *row, char delim)
     int i = 0;
     while (row[i] != '\n')
     {
-        if (row[i+1] == '\n')
+        if (row[i + 1] == '\n')
         {
-            row[i+1] = delim;
-            row[i+2] = '\n';
+            row[i + 1] = delim;
+            row[i + 2] = '\n';
             break;
         }
         i++;
@@ -155,7 +155,6 @@ void aCol(char *row, char delim)
 /* Odstraní sloupec číslo C */
 void dCol(int C)
 {
-    
 }
 
 /* Odstraní sloupce N-M, N<=M, N=M => odstraní N */
@@ -215,24 +214,27 @@ void myToUpper(int C, char *row, int colCount, char delim)
     }
 }
 
-/* Rozdělí řádek do  */
-/* void divideToCells(char *row, int colCount, char rowToCells[colCount + 1][CELLLENGTH], char delim)
+/* Rozdělí řádek do buněk*/
+void divideToCells(char *row, int colCount, char rowToCells[colCount + 1][CELLLENGTH], char delim)
 {
+    int c = 0,
+        currentCol = 0;
 
-    int i = 0, j = 0, currentCol = 0;
-    while (row[i] != '\n')
+    for (int i = 0; i <= (strlen(row)); i++)
     {
-        rowToCells[currentCol][j] = row[i];
-        j++;
-
         if (row[i] == delim)
         {
-            j = 0;
+            rowToCells[currentCol][c] = '\0';
+            c = 0;
             currentCol++;
         }
-        i++;
+        else if (row[i] != '\n')
+        {
+            rowToCells[currentCol][c] = row[i];
+            c++;
+        }
     }
-} */
+}
 
 /* Ve sloupci C zaokrouhlí na celé číslo */
 void myRound(int C, char *row, int colCount, char delim)
@@ -242,13 +244,11 @@ void myRound(int C, char *row, int colCount, char delim)
     if (C <= (colCount + 1))
     {
         //Rozdělím do sloupců
-        /* char rowToCells[colCount + 1][CELLLENGTH];
+        char rowToCells[colCount + 1][CELLLENGTH];
         divideToCells(row, colCount, rowToCells, delim);
 
-        for (int i = 0; i < (colCount+1); i++)
-        {
-            printf("%s\n", rowToCells[i]);
-        } */
+        /* for (int i = 0; i < (colCount + 1); i++) printf("%s", rowToCells[i]); */
+        printf("%s", rowToCells[2]);
 
         //Zkontroluji sloupce, jestli někde není číslo
         //Nalezené číslo převedu na float
@@ -444,7 +444,7 @@ void argsProcessing(int argCount, const char **pArg, char delim, char *row, int 
         }
     }
     /* Výpis jednoho zpracovaného řádku */
-    printf("%s", row);
+    //printf("%s", row); //FIXME: odkomentovat
     /* Čtení dalšího řádku */
     readRow(argCount, pArg, delim, rowCount);
 }
@@ -467,7 +467,7 @@ void readRow(int argCount, char const **pArg, char delim, int rowCount)
             i++;
         }
         rowCount++;
-        printf("%d", rowCount);
+        //printf("%d", rowCount);
         argsProcessing(argCount, pArg, delim, row, colCount, rowCount);
     }
 }
