@@ -78,5 +78,5 @@ jejichz bunky ve sloupci C obsahuji retezec STR.
 
 ### Operace pro selekci řádku
 - [x] rows
-- [ ] beginswith
+- [x] beginswith
 - [ ] contains

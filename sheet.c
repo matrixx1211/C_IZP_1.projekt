@@ -382,10 +382,30 @@ int rows(const char *N, const char *M, int *all, int currentRow, bool endOfFile)
 }
 
 /* Zpracuje se pouze řádek, který ve sloupci C začína řetezcem STR */
-int beginsWith(int C, char const *STR, int *all)
+int beginsWith(int C, char const *STR, int *all, char *row, int colCount, char delim)
 {
     *all = 0;
-    return 1;
+    bool cellBeginsWith = false;
+    char rowToCells[colCount + 1][CELLLENGTH];
+    divideToCells(row, colCount, rowToCells, delim);
+   // printf("%s, %s\n", rowToCells[C-1], STR);
+    for (int i = 0; i < strlen(STR); i++)
+    {
+        if (rowToCells[C-1][i] == STR[i])
+        {
+            cellBeginsWith = true;
+        }
+        else
+        {
+            cellBeginsWith = false;
+            break;
+        }
+    }
+
+    if (cellBeginsWith)
+        return 1;
+    else
+        return 0;
 }
 
 /* Zpracuje se pouze řádek, který ve sloupci C obsahuje řetezec STR */
@@ -516,7 +536,7 @@ void argsProcessing(int argCount, const char **pArg, char delim, char *row, int 
             if (!strcmp("rows", pArg[i]))
                 rowsSet = rows(pArg[i + 1], pArg[i + 2], &all, rowCount, endOfFile);
             if (!strcmp("beginswith", pArg[i]))
-                beginsWithSet = beginsWith(atoi(pArg[i + 1]), pArg[i + 2], &all);
+                beginsWithSet = beginsWith(atoi(pArg[i + 1]), pArg[i + 2], &all, row, colCount, delim);
             if (!strcmp("contains", pArg[i]))
                 containsSet = contains(atoi(pArg[i + 1]), pArg[i + 2], &all);
 

@@ -14,4 +14,4 @@ Iterace, rekurze:2:
 Dynamicke struktury:2:
 :0,03:5.68
 :0,6:5.68
-:0,9:2,9
+Bodu:0,9:2,9
