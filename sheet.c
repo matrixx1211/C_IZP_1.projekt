@@ -137,6 +137,7 @@ void dRows(int N, int M, char *row, int currentRow)
 /* Vloží prázdný sloupec před sloupec C */
 void iCol(int C)
 {
+    //uložím row do rowTemp a pak když se dostanu na konkrétní sloupec tak vložím delim a následně budu ukládat row
 }
 
 /* Vloží prázdný sloupec na konec */
@@ -290,7 +291,7 @@ void myRound(int C, char *row, int colCount, char delim)
         //Nalezené číslo převedu na float
         if (floatNum == true)
         {
-            rounded = (int)round(atof(rowToCells[C - 1]));
+            rounded = (int)(atof(rowToCells[C - 1]) + 0.5);
             sprintf(rowToCells[C - 1], "%d", rounded);
         }
         putIntoRow(row, colCount, rowToCells, delim);
@@ -325,7 +326,7 @@ void toInt(int C, char *row, int colCount, char delim)
         //Nalezené číslo převedu na float
         if (floatNum == true)
         {
-            rounded = (int)floor(atof(rowToCells[C - 1]));
+            rounded = (int)(atof(rowToCells[C - 1]));
             sprintf(rowToCells[C - 1], "%d", rounded);
         }
         putIntoRow(row, colCount, rowToCells, delim);
