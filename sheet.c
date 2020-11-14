@@ -396,18 +396,16 @@ void move(int N, int M, char *row, int colCount, char delim)
             {
                 strcpy(rowToCells[i], rowToCells[i + 1]);
             }
-            //do m-1 priradi data z docasne promene (n)
             strcpy(rowToCells[M - 2], tempCell);
         }
         //Pokud je M před N
-        else if (N > M)
+        else if ((N > M) && (M > 1))
         {
-            for (int i = (N - 1); i > (M - 1); i--)
+            for (int i = (N - 1); i > (M - 1) - 1; i--)
             {
                 strcpy(rowToCells[i], rowToCells[i - 1]);
             }
-            //do m-1 priradi data z docasne promene (n)
-            strcpy(rowToCells[M - 1], tempCell);
+            strcpy(rowToCells[(M - 1) - 1], tempCell);
         }
         putIntoRow(row, colCount, rowToCells, delim);
     }
