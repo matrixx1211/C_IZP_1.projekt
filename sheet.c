@@ -73,6 +73,48 @@ int usage()
            "\tjejichz bunky ve sloupci C obsahuji retezec STR.\n\n");
 }
 
+/* Složí buňky zpět do řádku */
+void putIntoRow(char *row, int colCount, char rowToCells[colCount + 1][CELLLENGTH], char delim)
+{
+    //vynuluju pole
+    for (int i = 0; i < strlen(row); i++)
+        row[i] = '\0';
+    //
+    for (int i = 0; i < (colCount + 1); i++)
+    {
+        if (i != (colCount))
+        {
+            sprintf(row, "%s%s%c", row, rowToCells[i], delim);
+        }
+        else
+        {
+            sprintf(row, "%s%s\n", row, rowToCells[i]);
+        }
+    }
+}
+
+/* Rozdělí řádek do buněk*/
+void divideToCells(char *row, int colCount, char rowToCells[colCount + 1][CELLLENGTH], char delim)
+{
+    int c = 0,
+        currentCol = 0;
+
+    for (int i = 0; i <= (strlen(row)); i++)
+    {
+        if (row[i] == delim)
+        {
+            rowToCells[currentCol][c] = '\0';
+            c = 0;
+            currentCol++;
+        }
+        else if (row[i] != '\n')
+        {
+            rowToCells[currentCol][c] = row[i];
+            c++;
+        }
+    }
+}
+
 //Příkazy pro úpravu tabulky
 /* Vloží řádek před zadaný řádek R > 0 */
 void iRow(int R, int colCount, int currentRow, char delim)
@@ -135,9 +177,17 @@ void dRows(int N, int M, char *row, int currentRow)
 }
 
 /* Vloží prázdný sloupec před sloupec C */
-void iCol(int C)
+void iCol(int C, char *row, int colCount, char delim)
 {
-    //uložím row do rowTemp a pak když se dostanu na konkrétní sloupec tak vložím delim a následně budu ukládat row
+    //rozdělím do buněk
+    char rowToCells[colCount + 1][CELLLENGTH];
+    char tempCell[CELLLENGTH];
+    divideToCells(row, colCount, rowToCells, delim);
+    //zkopíruju obsah buňky z rowToCells do dočasné tempCell
+    strcpy(tempCell, rowToCells[C - 1]);
+    //do buňky rowToCells vložím dělič a dočasnou tempCell a následně vše poskládám zpět do řádku
+    sprintf(rowToCells[C - 1], "%c%s", delim, tempCell);
+    putIntoRow(row, colCount, rowToCells, delim);
 }
 
 /* Vloží prázdný sloupec na konec */
@@ -157,22 +207,25 @@ void aCol(char *row, char delim)
 }
 
 /* Odstraní sloupec číslo C */
-void dCol(int C)
+void dCol(int C, char *row, int colCount, char delim)
 {
-    if (C > 0)
-    {
-    }
+    /* FIXME: ASI JSEM NEVÍM CO, ALE NEMŮŽU TO VYMYSLET ... */
 }
 
 /* Odstraní sloupce N-M, N<=M, N=M => odstraní N */
 void dCols(int N, int M)
 {
+    /* FIXME: ASI JSEM NEVÍM CO, ALE NEMŮŽU TO VYMYSLET ... */
 }
 
 //Příkazy pro zpracování dat - povinné
 /* Do buňky C nastavit řetezec STR */
-void cSet(int C, const char *STR)
+void cSet(int C, const char *STR, char *row, int colCount, char delim)
 {
+    char rowToCells[colCount + 1][CELLLENGTH];
+    divideToCells(row, colCount, rowToCells, delim);
+    sprintf(rowToCells[C - 1], "%s", STR);
+    putIntoRow(row, colCount, rowToCells, delim);
 }
 
 /* Řetězec ve sloupci C bude převeden na malá písmena */
@@ -217,48 +270,6 @@ void myToUpper(int C, char *row, int colCount, char delim)
                 currentCol++;
             }
             i++;
-        }
-    }
-}
-
-/* Složí buňky zpět do řádku */
-void putIntoRow(char *row, int colCount, char rowToCells[colCount + 1][CELLLENGTH], char delim)
-{
-    //vynuluju pole
-    for (int i = 0; i < strlen(row); i++)
-        row[i] = '\0';
-    //
-    for (int i = 0; i < (colCount + 1); i++)
-    {
-        if (i != (colCount))
-        {
-            sprintf(row, "%s%s:", row, rowToCells[i]);
-        }
-        else
-        {
-            sprintf(row, "%s%s\n", row, rowToCells[i]);
-        }
-    }
-}
-
-/* Rozdělí řádek do buněk*/
-void divideToCells(char *row, int colCount, char rowToCells[colCount + 1][CELLLENGTH], char delim)
-{
-    int c = 0,
-        currentCol = 0;
-
-    for (int i = 0; i <= (strlen(row)); i++)
-    {
-        if (row[i] == delim)
-        {
-            rowToCells[currentCol][c] = '\0';
-            c = 0;
-            currentCol++;
-        }
-        else if (row[i] != '\n')
-        {
-            rowToCells[currentCol][c] = row[i];
-            c++;
         }
     }
 }
@@ -334,21 +345,72 @@ void toInt(int C, char *row, int colCount, char delim)
 }
 
 /* Přepíše obsah buňek ve sloupci M hodnozami ze sloupce N */
-void copy(int N, int M)
+void copy(int N, int M, char *row, int colCount, char delim)
 {
-    /* TODO: 3 stejné funkce skoro, COPY, SWAP a MOVE */
+    //pokud nebude zadáno M nebo N mimo rozsah
+    if (!(M >= (colCount + 2) || N >= (colCount + 2)))
+    {
+        char rowToCells[colCount + 1][CELLLENGTH];
+        divideToCells(row, colCount, rowToCells, delim);
+        strcpy(rowToCells[M - 1], rowToCells[N - 1]);
+        putIntoRow(row, colCount, rowToCells, delim);
+    }
 }
 
 /* Zamění hodnoty buňek ve sloupcích N a M */
-void swap(int N, int M)
+void swap(int N, int M, char *row, int colCount, char delim)
 {
-    /* TODO: 3 stejné funkce skoro, COPY, SWAP a MOVE */
+    //pokud nebude zadáno M nebo N mimo rozsah
+    if (!(M >= (colCount + 2) || N >= (colCount + 2)))
+    {
+        char tempCell[CELLLENGTH];
+        char rowToCells[colCount + 1][CELLLENGTH];
+        divideToCells(row, colCount, rowToCells, delim);
+        //tempCell = N
+        strcpy(tempCell, rowToCells[N - 1]);
+        //N = M
+        strcpy(rowToCells[N - 1], rowToCells[M - 1]);
+        //M = tempCell
+        strcpy(rowToCells[M - 1], tempCell);
+        putIntoRow(row, colCount, rowToCells, delim);
+    }
 }
 
 /* Přesune sloupec N před sloupec M */
-void move(int N, int M)
+void move(int N, int M, char *row, int colCount, char delim)
 {
-    /* TODO: 3 stejné funkce skoro, COPY, SWAP a MOVE */
+    //pokud nebude zadáno M nebo N mimo rozsah
+    //TODO: ještě ošetřit menší nebo rovno 0
+    if (!(M >= (colCount + 2) || N >= (colCount + 2)))
+    {
+        char tempCell[CELLLENGTH];
+        char rowToCells[colCount + 1][CELLLENGTH];
+        divideToCells(row, colCount, rowToCells, delim);
+
+        //Do dočasné proměnné si uložím sloupec N
+        strcpy(tempCell, rowToCells[N - 1]);
+        //Pokud je N před M
+        if (N < M)
+        {
+            for (int i = (N - 1); i < (M - 1) - 1; i++)
+            {
+                strcpy(rowToCells[i], rowToCells[i + 1]);
+            }
+            //do m-1 priradi data z docasne promene (n)
+            strcpy(rowToCells[M - 2], tempCell);
+        }
+        //Pokud je M před N
+        else if (N > M)
+        {
+            for (int i = (N - 1); i > (M - 1); i--)
+            {
+                strcpy(rowToCells[i], rowToCells[i - 1]);
+            }
+            //do m-1 priradi data z docasne promene (n)
+            strcpy(rowToCells[M - 1], tempCell);
+        }
+        putIntoRow(row, colCount, rowToCells, delim);
+    }
 }
 
 //Příkazy pro selekci
@@ -388,10 +450,10 @@ int beginsWith(int C, char const *STR, int *all, char *row, int colCount, char d
     bool cellBeginsWith = false;
     char rowToCells[colCount + 1][CELLLENGTH];
     divideToCells(row, colCount, rowToCells, delim);
-   // printf("%s, %s\n", rowToCells[C-1], STR);
+    // printf("%s, %s\n", rowToCells[C-1], STR);
     for (int i = 0; i < strlen(STR); i++)
     {
-        if (rowToCells[C-1][i] == STR[i])
+        if (rowToCells[C - 1][i] == STR[i])
         {
             cellBeginsWith = true;
         }
@@ -409,10 +471,17 @@ int beginsWith(int C, char const *STR, int *all, char *row, int colCount, char d
 }
 
 /* Zpracuje se pouze řádek, který ve sloupci C obsahuje řetezec STR */
-int contains(int C, char const *STR, int *all)
+int contains(int C, char const *STR, int *all, char *row, int colCount, char delim)
 {
     *all = 0;
-    return 1;
+    bool contains = false;
+    char rowToCells[colCount + 1][CELLLENGTH];
+    divideToCells(row, colCount, rowToCells, delim);
+    // printf("%s, %s\n", rowToCells[C-1], STR);
+    if (strstr(rowToCells[C - 1], STR) != NULL)
+        return 1;
+    else
+        return 0;
 }
 
 /* Kontrola spuštění - buď [Selekce radku] [Prikaz pro zpracovani dat] a nebo [Prikazy pro upravu tabulky] */
@@ -524,11 +593,11 @@ void argsProcessing(int argCount, const char **pArg, char delim, char *row, int 
             if (!strcmp("drows", pArg[i]))
                 dRows(atoi(pArg[i + 1]), atoi(pArg[i + 2]), row, rowCount);
             if (!strcmp("icol", pArg[i]))
-                iCol(*pArg[i + 1]);
+                iCol(atoi(pArg[i + 1]), row, colCount, delim);
             if (!strcmp("acol", pArg[i]))
                 aCol(row, delim);
             if (!strcmp("dcol", pArg[i]))
-                dCol(*pArg[i + 1]);
+                dCol(atoi(pArg[i + 1]), row, colCount, delim);
             if (!strcmp("dcols", pArg[i]))
                 dCols(*pArg[i + 1], *pArg[i + 2]);
 
@@ -538,14 +607,14 @@ void argsProcessing(int argCount, const char **pArg, char delim, char *row, int 
             if (!strcmp("beginswith", pArg[i]))
                 beginsWithSet = beginsWith(atoi(pArg[i + 1]), pArg[i + 2], &all, row, colCount, delim);
             if (!strcmp("contains", pArg[i]))
-                containsSet = contains(atoi(pArg[i + 1]), pArg[i + 2], &all);
+                containsSet = contains(atoi(pArg[i + 1]), pArg[i + 2], &all, row, colCount, delim);
 
             //Příkazy pro zpracování dat
             //TODO: pokud nějaký z hodnot bude 1, tak se provede
             if (rowsSet || beginsWithSet || containsSet || all)
             {
                 if (!strcmp("cset", pArg[i]))
-                    cSet(*pArg[i + 1], pArg[i + 2]);
+                    cSet(atoi(pArg[i + 1]), pArg[i + 2], row, colCount, delim);
                 if (!strcmp("tolower", pArg[i]))
                     myToLower(atoi(pArg[i + 1]), row, colCount, delim);
                 if (!strcmp("toupper", pArg[i]))
@@ -555,11 +624,11 @@ void argsProcessing(int argCount, const char **pArg, char delim, char *row, int 
                 if (!strcmp("int", pArg[i]))
                     toInt(atoi(pArg[i + 1]), row, colCount, delim);
                 if (!strcmp("copy", pArg[i]))
-                    copy(*pArg[i + 1], *pArg[i + 2]);
+                    copy(atoi(pArg[i + 1]), atoi(pArg[i + 2]), row, colCount, delim);
                 if (!strcmp("swap", pArg[i]))
-                    swap(*pArg[i + 1], *pArg[i + 2]);
+                    swap(atoi(pArg[i + 1]), atoi(pArg[i + 2]), row, colCount, delim);
                 if (!strcmp("move", pArg[i]))
-                    move(*pArg[i + 1], *pArg[i + 2]);
+                    move(atoi(pArg[i + 1]), atoi(pArg[i + 2]), row, colCount, delim);
             }
         }
         //printf("\nH- %d,%d,%d,%d\n", all, rowsSet, beginsWithSet, containsSet);

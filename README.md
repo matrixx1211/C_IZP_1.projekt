@@ -61,22 +61,22 @@ jejichz bunky ve sloupci C obsahuji retezec STR.
 - [x] arow
 - [x] drow 
 - [x] drows
-- [ ] icol
+- [x] icol
 - [x] acol
 - [ ] dcol
 - [ ] dcols
 
 ### Operace pro zpracování dat
-- [ ] cset
+- [x] cset
 - [x] tolower
 - [x] toupper
 - [x] round
 - [x] int
-- [ ] copy
-- [ ] swap
-- [ ] move
+- [x] copy
+- [x] swap
+- [x] move
 
 ### Operace pro selekci řádku
 - [x] rows
 - [x] beginswith
-- [ ] contains
+- [x] contains

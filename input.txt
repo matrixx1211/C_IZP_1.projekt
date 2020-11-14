@@ -1,17 +1,19 @@
-Cviceni:Bodu:Projekt
-Prvni programy:0:
-Cyklus, typy:0:
-Retezce:0:
-Funkce 1:0:
-Struktury:2:
-Ukazatele:2:
-Funkce:0:Obhajoba 1
-Malloc, dbg:2:
-:0:
-:0:
-Iterace, rekurze:2:
-:0:Obhajoba 2
-Dynamicke struktury:2:
-:0,03:5.68
-:0,6:5.68
-Bodu:0,9:2,9
+1Slovo:2Veta:3Cviceni:4Bodu:5Projekt
+Veta:Slovo:Cviceni:Bodu:Projekt
+Slovo:Cviceni:Veta:Bodu:Projekt
+Slovo:Veta:Prvni programy:0:
+Slovo:Veta:Cyklus, typy:0:
+Slovo:Veta:Retezce:0:
+Slovo:Veta:Funkce 1:0:
+Slovo:Veta:Struktury:2:
+Slovo:Veta:Ukazatele:2,168:
+Slovo:Veta:Funkce:0:Obhajoba 1
+Slovo:Veta:Malloc, dbg:2:
+Slovo:Veta::0:
+Slovo:Veta::0:
+Slovo:Veta:Iterace, rekurze:2:
+Slovo:Veta::0:Obhajoba 2
+Slovo:Veta:Dynamicke struktury:2:
+Slovo:Veta::0,03:5.68
+Slovo:Veta::0,6:5.68
+Slovo:Veta:Bodu:0,9:2,9
