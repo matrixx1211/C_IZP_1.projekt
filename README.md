@@ -63,8 +63,8 @@ jejichz bunky ve sloupci C obsahuji retezec STR.
 - [x] drows
 - [x] icol
 - [x] acol
-- [ ] dcol
-- [ ] dcols
+- [x] dcol
+- [x] dcols
 
 ### Operace pro zpracování dat
 - [x] cset

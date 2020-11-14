@@ -82,14 +82,22 @@ void putIntoRow(char *row, int colCount, char rowToCells[colCount + 1][CELLLENGT
     //
     for (int i = 0; i < (colCount + 1); i++)
     {
-        if (i != (colCount))
-        {
-            sprintf(row, "%s%s%c", row, rowToCells[i], delim);
-        }
-        else
-        {
-            sprintf(row, "%s%s\n", row, rowToCells[i]);
-        }
+        //ošetřit když smažu poslední col
+        if (strcmp(rowToCells[i], " "))
+            if (i != (colCount))
+            {
+                sprintf(row, "%s%s%c", row, rowToCells[i], delim);
+            }
+            else
+            {
+                sprintf(row, "%s%s\n", row, rowToCells[i]);
+            }
+    }
+
+    if ((!strcmp(rowToCells[colCount], " ")))
+    {
+        row[strlen(row) - 1] = '\0';
+        sprintf(row, "%s\n", row);
     }
 }
 
@@ -117,13 +125,36 @@ void divideToCells(char *row, int colCount, char rowToCells[colCount + 1][CELLLE
 
 //Příkazy pro úpravu tabulky
 /* Vloží řádek před zadaný řádek R > 0 */
-void iRow(int R, int colCount, int currentRow, char delim)
+void iRow(int R, int argCount, const char **pArg, int colCount, int currentRow, char delim)
 {
     if (R > 0)
     {
+        int dcolsPos = 0, dcolPos = 0, irowPos = 0, newColCount = colCount;
+        for (int i = 1; i < argCount; i++)
+        {
+            if (!strcmp(pArg[i], "dcol"))
+                dcolPos = i;
+            if (!strcmp(pArg[i], "dcols"))
+                dcolsPos = i;
+            if (!strcmp(pArg[i], "irow"))
+                irowPos = i;
+        }
+
+        if (irowPos > 0 && dcolPos > 0)
+            if (irowPos < dcolPos)
+            {
+                newColCount = newColCount - 1;
+            }
+        if (irowPos > 0 && dcolsPos > 0)
+            if (irowPos < dcolsPos)
+            {
+                if (atoi(pArg[dcolsPos + 1]) <= atoi(pArg[dcolsPos + 2]))
+                    newColCount = newColCount - (atoi(pArg[dcolsPos + 2]) - atoi(pArg[dcolsPos + 1]) + 1);
+            }
+
         if (R == currentRow)
         {
-            for (int i = 0; i < colCount; i++)
+            for (int i = 0; i < newColCount; i++)
             {
                 printf("%c", delim);
             }
@@ -207,15 +238,34 @@ void aCol(char *row, char delim)
 }
 
 /* Odstraní sloupec číslo C */
-void dCol(int C, char *row, int colCount, char delim)
+void dCol(int C, char *row, int *colCount, char delim)
 {
-    /* FIXME: ASI JSEM NEVÍM CO, ALE NEMŮŽU TO VYMYSLET ... */
+    //rozdělím do buněk
+    char rowToCells[*colCount + 1][CELLLENGTH];
+    divideToCells(row, *colCount, rowToCells, delim);
+    sprintf(rowToCells[C - 1], " ");
+    putIntoRow(row, *colCount, rowToCells, delim);
+    *colCount = *colCount - 1;
 }
 
 /* Odstraní sloupce N-M, N<=M, N=M => odstraní N */
-void dCols(int N, int M)
+void dCols(int N, int M, char *row, int *colCount, char delim)
 {
-    /* FIXME: ASI JSEM NEVÍM CO, ALE NEMŮŽU TO VYMYSLET ... */
+    if (N <= M)
+    {
+        char rowToCells[*colCount + 1][CELLLENGTH];
+        divideToCells(row, *colCount, rowToCells, delim);
+
+        for (int i = 0; i < (*colCount + 1); i++)
+        {
+            //printf("%d - %d - %d", i, (N - 1), (M - 1));
+            if ((i >= (N - 1)) && (i <= (M - 1)))
+                sprintf(rowToCells[i], " ");
+        }
+
+        putIntoRow(row, *colCount, rowToCells, delim);
+        *colCount = *colCount - (M - N + 1);
+    }
 }
 
 //Příkazy pro zpracování dat - povinné
@@ -582,7 +632,7 @@ void argsProcessing(int argCount, const char **pArg, char delim, char *row, int 
         {
             //Příkazy pro úpravu tabulky
             if (!strcmp("irow", pArg[i]))
-                iRow(atoi(pArg[i + 1]), colCount, rowCount, delim);
+                iRow(atoi(pArg[i + 1]), argCount, pArg, colCount, rowCount, delim);
             //arow přesunuto do main - FIXME: chtěl bych ho zde
             if ((!strcmp("arow", pArg[i])) && endOfFile)
                 aRow(colCount, delim, row);
@@ -595,9 +645,9 @@ void argsProcessing(int argCount, const char **pArg, char delim, char *row, int 
             if (!strcmp("acol", pArg[i]))
                 aCol(row, delim);
             if (!strcmp("dcol", pArg[i]))
-                dCol(atoi(pArg[i + 1]), row, colCount, delim);
+                dCol(atoi(pArg[i + 1]), row, &colCount, delim);
             if (!strcmp("dcols", pArg[i]))
-                dCols(*pArg[i + 1], *pArg[i + 2]);
+                dCols(atoi(pArg[i + 1]), atoi(pArg[i + 2]), row, &colCount, delim);
 
             //Selekce řádků
             if (!strcmp("rows", pArg[i]))
